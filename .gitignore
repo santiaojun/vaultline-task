@@ -1,0 +1,11 @@
+# Python verifier output
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Local runs
+*.log
+.vaultline-data/

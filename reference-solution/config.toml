@@ -1,0 +1,8 @@
+schema_version = "1"
+
+[setup]
+commands = []
+
+[run]
+command = "npm start"
+ports   = [8080]
