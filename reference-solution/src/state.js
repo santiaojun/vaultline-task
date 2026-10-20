@@ -173,7 +173,7 @@ function planDeleteVersion(state, name, key, id) {
 }
 
 module.exports = {
-  createState, apply, versionId,
+  createState, apply, versionId, findIndex,
   planCreateBucket, planDeleteBucket, planSetVersioning,
   planPutObject, planDeleteKey, planDeleteVersion,
 };
