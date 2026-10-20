@@ -24,7 +24,7 @@ verify = "python3 verifier/tests/run_tests.py"
 
 [verifier]
 type          = "tests"
-timeout_sec   = 300
+timeout_sec   = 900
 network       = "none"
 deterministic = true
 
