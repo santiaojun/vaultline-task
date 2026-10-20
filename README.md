@@ -3,12 +3,12 @@
 A greenfield task: the candidate builds Vaultline, a versioned object storage
 service in Node.js (versions, delete markers, prefix/delimiter listing with
 pagination, crash recovery), starting from a scaffold that holds only
-`config.toml`.
+`config.toml` and a `package.json` whose `start` script runs `server.js`.
 
 ```text
 task.toml               metadata, limits, verifier settings
 instruction.md          requirements given to the candidate
-app/                    candidate scaffold (config.toml only)
+app/                    candidate scaffold (config.toml, package.json)
 environment/Dockerfile  Node.js 20.20.2 + python3
 reference-solution/     complete implementation, expected to score 100
 verifier/
