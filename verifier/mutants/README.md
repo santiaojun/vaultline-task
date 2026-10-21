@@ -58,6 +58,8 @@ One row per run. *Failed = target* is yes when the failed checks are exactly the
 | `control-cpu-load/1` (reference, 2 CPUs both kept busy) | 100 |
 | `control-cpu-load/2` (reference, 2 CPUs both kept busy) | 100 |
 | `control-docker/1` (reference in the task image, 2 CPUs, 1 GiB, no network) | 100 |
+| `control-docker/2` (reference in the task image, 2 CPUs, 1 GiB, no network) | 100 |
+| `control-docker/3` (reference in the task image, 2 CPUs, 1 GiB, no network) | 100 |
 | `scaffold/1` (untouched `app/` scaffold (must score 0)) | 0 |
 | `scaffold-docker/1` (untouched `app/` scaffold in the task image) | 0 |
 
