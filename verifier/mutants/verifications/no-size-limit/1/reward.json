@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "task": "vaultline",
+  "task_version": 1,
+  "score": 98,
+  "max_score": 100,
+  "tests": [
+    {
+      "id": "F1-object-basics",
+      "title": "PUT, GET and HEAD round-trip bodies, ETag, size and content type",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F1-key-mapping",
+      "title": "keys are opaque byte strings: path-like, long and similar keys stay distinct",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F1-bom-key",
+      "title": "keys with U+FEFF, U+FFFF and supplementary code points round-trip intact",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-id-rules",
+      "title": "version IDs follow the versioning state rules",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-commit-order",
+      "title": "history order is commit order and lastModified never decreases",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-no-reuse-after-delete",
+      "title": "an ID removed by delete-by-ID is never returned again",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-null-position",
+      "title": "the null version keeps its place across versioning state changes",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-suspended-put-replaces-null",
+      "title": "a Suspended PUT replaces the null version and becomes newest",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-null-history-pages",
+      "title": "null histories read through delimited, paginated version listings",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-null-sequence",
+      "title": "seeded PUT, versioning and delete-by-ID sequence matches the model",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-unversioned-null-after-enable",
+      "title": "an Unversioned null version stays in place after Enabled",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-null-delete-by-id",
+      "title": "deleting the null version by ID keeps the other versions",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-position-rebuild-restart",
+      "title": "after deleting the newest versions and a restart, a PUT is newest with a new ID",
+      "score": 4,
+      "max_score": 4,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F2-ids-after-restart",
+      "title": "versions after restarts are newer and never reuse an ID",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-marker-responses",
+      "title": "delete marker status codes, headers and DELETE response bodies",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-marker-hides",
+      "title": "a delete marker hides the key from GET and the objects listing",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-older-readable",
+      "title": "versions under a delete marker stay readable by ID",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-marker-stacking",
+      "title": "repeated key-DELETEs add new delete markers",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-marker-sequence",
+      "title": "seeded PUT, key-DELETE and delete-by-ID sequence matches the model",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-recompute-next-marker",
+      "title": "deleting the current version by ID makes a marker below it current",
+      "score": 4,
+      "max_score": 4,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-null-marker-delete-by-id",
+      "title": "deleting a null marker by ID exposes the next-newest version",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-current-after-delete-by-id",
+      "title": "deleting current object versions by ID promotes the next one",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-undelete",
+      "title": "removing the current marker by ID restores the key",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-marker-only-versions",
+      "title": "keys with only markers appear only in the version listing",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-suspended-delete",
+      "title": "a Suspended key-DELETE replaces the null version with a null marker",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F3-long-token",
+      "title": "a long continuation token from a long delimiter is accepted",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-params-and-shape",
+      "title": "listing parameters, errors, field shapes, delimiters and byte order",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-no-duplicates",
+      "title": "quiet pagination never repeats an item",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-no-omissions",
+      "title": "quiet pagination lists every item with exact truncation",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-n3-null-at-token",
+      "title": "replacing the null version at the token place continues correctly",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-n3-null-before-token",
+      "title": "replacing the null version before the token place continues correctly",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-cursor-delete-by-id",
+      "title": "delete-by-ID between pages causes no skip and no repeat",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-n3-across-restart",
+      "title": "a token survives a restart and a null replacement",
+      "score": 3,
+      "max_score": 3,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-token-across-restart",
+      "title": "a token survives a restart and a new version on its key",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-marker-prefix-hidden",
+      "title": "a common prefix with only marker-current keys is hidden in the objects listing",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-marker-only-both-listings",
+      "title": "marker-only keys under prefixes in both listings",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-undelete-relists-prefix",
+      "title": "removing the only current marker re-lists the common prefix",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-churn-no-duplicates",
+      "title": "pagination during concurrent writes never repeats an item",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F4-churn-no-omissions",
+      "title": "pagination during concurrent writes lists every stable item once",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F5-bucket-basics",
+      "title": "bucket create, list, delete and versioning endpoints",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F5-delete-guard",
+      "title": "a bucket with markers or noncurrent versions cannot be deleted",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F5-recreate-clean",
+      "title": "a re-created bucket is empty and Unversioned",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F5-bucket-linearizable",
+      "title": "concurrent creates of one name: exactly one succeeds",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F5-state-restart",
+      "title": "buckets and versioning states survive a restart",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F6-ack-durable",
+      "title": "acknowledged writes survive SIGKILL",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F6-inflight-atomic",
+      "title": "a PUT in flight at SIGKILL is absent or complete, and stays so",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F6-marker-ack-durable",
+      "title": "an acknowledged key-DELETE survives SIGKILL",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F6-crash-sequence",
+      "title": "seeded writes with SIGKILLs keep every acknowledged effect",
+      "score": 2,
+      "max_score": 2,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F7-concurrent-puts",
+      "title": "concurrent PUTs create distinct versions and lose none",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F7-null-race",
+      "title": "concurrent null PUTs leave one complete null version",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F7-read-during-write",
+      "title": "reads during writes return one complete version",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F7-client-abort",
+      "title": "an upload closed mid-body creates nothing",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "F8-errors-and-headers",
+      "title": "error bodies, codes, precedence and header names",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "X-integration",
+      "title": "seeded mixed sequence across features with restarts matches the model",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    },
+    {
+      "id": "NF-oversize-413",
+      "title": "oversize Content-Length is rejected with 413",
+      "score": 0,
+      "max_score": 1,
+      "status": "failed",
+      "type": "deterministic"
+    },
+    {
+      "id": "NF-oversize-guard",
+      "title": "a rejected oversize PUT changes nothing",
+      "score": 0,
+      "max_score": 1,
+      "status": "failed",
+      "type": "deterministic"
+    },
+    {
+      "id": "NF-scale-recovery",
+      "title": "at full data scale, recovery is ready within 15 s and serves correctly",
+      "score": 1,
+      "max_score": 1,
+      "status": "passed",
+      "type": "deterministic"
+    }
+  ]
+}

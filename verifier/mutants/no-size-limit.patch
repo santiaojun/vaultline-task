@@ -1,0 +1,12 @@
+diff --git a/src/server.js b/src/server.js
+index 78bae59..b06fd91 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -133,7 +133,6 @@ async function putObject(req, res, name, params) {
+   let err = null;
+   if (!validBucketName(name)) err = 'InvalidBucketName';
+   else if (key === null) err = 'InvalidKey';
+-  else if (Number(req.headers['content-length'] || 0) > MAX_BODY) err = 'EntityTooLarge';
+   else if (!state.buckets.has(name)) err = 'NoSuchBucket';
+   if (err) return discardThen(req, () => sendError(res, err));
+ 

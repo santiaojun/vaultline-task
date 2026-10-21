@@ -1,0 +1,23 @@
+diff --git a/src/server.js b/src/server.js
+index 78bae59..b5d4a34 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -150,8 +150,17 @@ async function putObject(req, res, name, params) {
+       }
+     }, fs.createWriteStream(file, { flags: 'wx' }));
+   } catch {
++    if (!req.complete) {
++      // Store whatever arrived before the client went away.
++      const partial = {
++        etag: '"' + hash.digest('hex') + '"', size, body,
++        ctype: req.headers['content-type'] ?? 'application/octet-stream',
++      };
++      commit(S.planPutObject(state, name, key, partial, Date.now()));
++      return;
++    }
+     removeFile(file);
+-    if (req.complete && !res.headersSent) sendError(res, 'InternalError');
++    if (!res.headersSent) sendError(res, 'InternalError');
+     return;
+   }
+   if (!req.complete) return removeFile(file);

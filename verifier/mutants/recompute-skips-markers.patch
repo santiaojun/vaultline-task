@@ -1,0 +1,86 @@
+diff --git a/src/listing.js b/src/listing.js
+index eb2700e..b15c2a2 100644
+--- a/src/listing.js
++++ b/src/listing.js
+@@ -3,7 +3,7 @@
+ // pass over the bucket's sorted keys, so it is a snapshot of committed state.
+ // Tokens are stateless: base64url(JSON) of the binding and the place after
+ // the page's last item.
+-const { findIndex } = require('./state');
++const { findIndex, currentOf } = require('./state');
+ 
+ function iso(ms) {
+   return new Date(ms).toISOString();
+@@ -76,7 +76,7 @@ function listPage(bucket, opts) {
+   for (; i < order.length && items.length <= maxKeys; i++) {
+     const entry = order[i];
+     if (!entry.key.startsWith(prefix)) break;
+-    if (!versions && entry.history[0].marker) continue;
++    if (!versions && currentOf(entry).marker) continue;
+     if (delimiter !== '') {
+       const rest = entry.key.slice(prefix.length);
+       const at = rest.indexOf(delimiter);
+@@ -88,7 +88,7 @@ function listPage(bucket, opts) {
+       }
+     }
+     if (!versions) {
+-      items.push({ entry, v: entry.history[0] });
++      items.push({ entry, v: currentOf(entry) });
+       continue;
+     }
+     for (const v of entry.history) {
+diff --git a/src/server.js b/src/server.js
+index 78bae59..c3be859 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -178,7 +178,7 @@ function resolveTarget(name, params) {
+   if (!bucket) return { error: 'NoSuchBucket' };
+   const entry = bucket.keys.get(key);
+   if (!params.has('versionId')) {
+-    const v = entry && entry.history[0];
++    const v = entry && S.currentOf(entry);
+     if (!v) return { error: 'NoSuchKey' };
+     if (v.marker) return { error: 'NoSuchKey', headers: markerHeaders(v) };
+     return { version: v };
+diff --git a/src/state.js b/src/state.js
+index b0ac09e..e59a07f 100644
+--- a/src/state.js
++++ b/src/state.js
+@@ -65,6 +65,7 @@ function apply(state, r) {
+     case 'putObject': {
+       const entry = getOrCreateEntry(bucket, r.key);
+       if (r.id === 'null') removeById(entry, 'null');
++      entry.skipMarkers = false;
+       entry.history.unshift({
+         pos: r.seq, id: r.id, marker: false, etag: r.etag, size: r.size,
+         ctype: r.ctype, lm: r.lm, body: r.body,
+@@ -74,6 +75,7 @@ function apply(state, r) {
+     case 'deleteKey': {
+       const entry = getOrCreateEntry(bucket, r.key);
+       if (r.removeNull) removeById(entry, 'null');
++      entry.skipMarkers = false;
+       if (r.marker !== null) {
+         entry.history.unshift({
+           pos: r.seq, id: r.marker, marker: true, etag: null, size: null,
+@@ -85,6 +87,7 @@ function apply(state, r) {
+     }
+     case 'deleteVersion': {
+       const entry = bucket.keys.get(r.key);
++      if (entry.history[0].id === r.id) entry.skipMarkers = true;
+       removeById(entry, r.id);
+       dropEntryIfEmpty(bucket, entry);
+       break;
+@@ -172,7 +175,13 @@ function planDeleteVersion(state, name, key, id) {
+   };
+ }
+ 
++function currentOf(entry) {
++  if (entry.skipMarkers) return entry.history.find((v) => !v.marker) || entry.history[0];
++  return entry.history[0];
++}
++
+ module.exports = {
++  currentOf,
+   createState, apply, versionId, findIndex,
+   planCreateBucket, planDeleteBucket, planSetVersioning,
+   planPutObject, planDeleteKey, planDeleteVersion,

@@ -1,0 +1,18 @@
+diff --git a/src/server.js b/src/server.js
+index 78bae59..74a362b 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -211,8 +211,12 @@ function deleteObject(res, name, params) {
+   if (!validBucketName(name)) return sendError(res, 'InvalidBucketName');
+   if (key === null) return sendError(res, 'InvalidKey');
+   if (!params.has('versionId')) {
+-    const p = commit(S.planDeleteKey(state, name, key, Date.now()));
++    const p = S.planDeleteKey(state, name, key, Date.now());
+     if (p.error) return sendError(res, p.error);
++    if (p.record) {
++      S.apply(state, p.record);
++      setTimeout(() => log.append(p.record), 200);
++    }
+     const marker = p.record ? p.record.marker : null;
+     return sendJson(res, 200, { versionId: marker ?? 'null', deleteMarker: marker !== null });
+   }

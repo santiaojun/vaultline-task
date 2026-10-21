@@ -1,0 +1,21 @@
+diff --git a/src/state.js b/src/state.js
+index b0ac09e..0f1d4f0 100644
+--- a/src/state.js
++++ b/src/state.js
+@@ -64,11 +64,13 @@ function apply(state, r) {
+       break;
+     case 'putObject': {
+       const entry = getOrCreateEntry(bucket, r.key);
+-      if (r.id === 'null') removeById(entry, 'null');
+-      entry.history.unshift({
++      const v = {
+         pos: r.seq, id: r.id, marker: false, etag: r.etag, size: r.size,
+         ctype: r.ctype, lm: r.lm, body: r.body,
+-      });
++      };
++      const at = r.id === 'null' ? entry.history.findIndex((x) => x.id === 'null') : -1;
++      if (at >= 0) entry.history[at] = { ...v, pos: entry.history[at].pos };
++      else entry.history.unshift(v);
+       break;
+     }
+     case 'deleteKey': {

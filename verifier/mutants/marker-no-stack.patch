@@ -1,0 +1,25 @@
+diff --git a/src/server.js b/src/server.js
+index 78bae59..9e70741 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -213,7 +213,7 @@ function deleteObject(res, name, params) {
+   if (!params.has('versionId')) {
+     const p = commit(S.planDeleteKey(state, name, key, Date.now()));
+     if (p.error) return sendError(res, p.error);
+-    const marker = p.record ? p.record.marker : null;
++    const marker = p.record ? p.record.marker : (p.marker ?? null);
+     return sendJson(res, 200, { versionId: marker ?? 'null', deleteMarker: marker !== null });
+   }
+   const id = decodeUtf8(params.get('versionId'));
+diff --git a/src/state.js b/src/state.js
+index b0ac09e..cc8acf0 100644
+--- a/src/state.js
++++ b/src/state.js
+@@ -144,6 +144,7 @@ function planDeleteKey(state, name, key, now) {
+   let removeNull = false;
+   let marker = null;
+   if (bucket.status === 'Enabled') {
++    if (entry && entry.history[0].marker) return { record: null, marker: entry.history[0].id };
+     marker = versionId(seq);
+   } else if (bucket.status === 'Suspended') {
+     removeNull = hasNull;

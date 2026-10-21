@@ -1,0 +1,20 @@
+diff --git a/src/listing.js b/src/listing.js
+index eb2700e..134c7b1 100644
+--- a/src/listing.js
++++ b/src/listing.js
+@@ -76,7 +76,6 @@ function listPage(bucket, opts) {
+   for (; i < order.length && items.length <= maxKeys; i++) {
+     const entry = order[i];
+     if (!entry.key.startsWith(prefix)) break;
+-    if (!versions && entry.history[0].marker) continue;
+     if (delimiter !== '') {
+       const rest = entry.key.slice(prefix.length);
+       const at = rest.indexOf(delimiter);
+@@ -87,6 +86,7 @@ function listPage(bucket, opts) {
+         continue;
+       }
+     }
++    if (!versions && entry.history[0].marker) continue;
+     if (!versions) {
+       items.push({ entry, v: entry.history[0] });
+       continue;

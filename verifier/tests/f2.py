@@ -172,13 +172,13 @@ def position_rebuild_restart(ctx):
     b = "rebuild-b"
     s.create(b, "Enabled")
     for cycle in range(3):
-        for k in ("pr-a", "pr-b"):
+        for k in ("pr-b", "pr-a"):
             for _ in range(3):
                 s.put(b, k, body(r, 1, 16))
+        # The two newest versions of pr-a are the newest writes of all; they go away.
         newest = [v.id for v in s.m[b].history("pr-a")[:2]]
         for vid in newest:
             s.delete_version(b, "pr-a", vid)
-        s.delete_version(b, "pr-b", s.m[b].history("pr-b")[0].id)
         ctx.service.restart()
         s.expect_listing(b, True)
         s.put(b, "pr-a", body(r, 1, 16))     # must be newest, with a never-sent ID

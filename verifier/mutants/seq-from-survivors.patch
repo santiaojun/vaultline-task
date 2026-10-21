@@ -1,0 +1,16 @@
+diff --git a/src/recovery.js b/src/recovery.js
+index 03a5872..febb611 100644
+--- a/src/recovery.js
++++ b/src/recovery.js
+@@ -14,6 +14,11 @@ function recover(dataDir) {
+   const log = new Log(dataDir);
+   const state = createState();
+   for (const record of log.recover()) apply(state, record);
++  let max = 0;
++  for (const b of state.buckets.values()) {
++    for (const e of b.order) for (const v of e.history) max = Math.max(max, v.pos);
++  }
++  state.seq = max;
+ 
+   // 3. Remove body files no surviving version references.
+   const referenced = new Set();

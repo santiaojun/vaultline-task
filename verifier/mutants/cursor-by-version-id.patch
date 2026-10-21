@@ -1,0 +1,34 @@
+diff --git a/src/listing.js b/src/listing.js
+index eb2700e..ab4f463 100644
+--- a/src/listing.js
++++ b/src/listing.js
+@@ -30,7 +30,7 @@ function decodeToken(s, binding) {
+   if (typeof t.c === 'string') return { c: t.c };
+   if (typeof t.k !== 'string') return null;
+   if (binding.e === 'v') {
+-    if (!Number.isSafeInteger(t.pos)) return null;
++    if (typeof t.pos !== 'string') return null;
+     return { k: t.k, pos: t.pos };
+   }
+   return { k: t.k };
+@@ -92,7 +92,10 @@ function listPage(bucket, opts) {
+       continue;
+     }
+     for (const v of entry.history) {
+-      if (i === first && startPos !== null && v.pos >= startPos) continue;
++      if (i === first && startPos !== null) {
++        const at = entry.history.findIndex((x) => x.id === startPos);
++        if (at < 0 || entry.history.indexOf(v) <= at) continue;
++      }
+       items.push({ entry, v });
+       if (items.length > maxKeys) break;
+     }
+@@ -124,7 +127,7 @@ function listPage(bucket, opts) {
+     if (last.cp !== undefined) t.c = last.cp;
+     else {
+       t.k = last.entry.key;
+-      if (versions) t.pos = last.v.pos;
++      if (versions) t.pos = last.v.id;
+     }
+     nextToken = encodeToken(t);
+   }

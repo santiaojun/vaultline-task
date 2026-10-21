@@ -88,7 +88,7 @@ def scale_recovery(ctx):
         s.create(f"scale-{i}")
     s.versioning("scale-0", "Enabled")
     keys = ["data/%03d/obj-%05d.bin" % (i % 50, i) for i in range(2500)]
-    marker_keys = set(r.sample(range(1, 2402), 195))
+    marker_keys = set(r.sample(range(1, 2402), 200))
     big_keys = set(r.sample(sorted(set(range(1, 2402)) - marker_keys), 7))
     base = bytes(random.Random(ctx.seed + 1).getrandbits(8) for _ in range(4096)) * (MAX_BODY // 4096)
     lock = threading.Lock()
@@ -116,7 +116,10 @@ def scale_recovery(ctx):
     # remaining PUTs (including the 7 large bodies), so every key-DELETE precedes at least
     # 2,000 later writes before the SIGKILL.
     phase1, phase2 = [], []
-    phase1.append([("put", 0, n) for n in range(95)] + [("del", 0, n) for n in range(5)])
+    # Key 0: 100 object versions (§10 per key). Each of the 200 markers is the last write
+    # to its key, so no key-DELETE hits a marker-current key and none is followed by a
+    # write to the same key.
+    phase1.append([("put", 0, n) for n in range(100)])
     for i in range(1, 2500):
         if i in marker_keys:
             phase1.append([("put", i, 0), ("del", i, 1)])
