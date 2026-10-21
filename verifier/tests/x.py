@@ -48,7 +48,8 @@ def integration(ctx):
     for _ in range(5):
         s.put("x-a", "x0", body(r, 1, 9))
     h = list(s.m["x-a"].history("x0"))
-    s.paginate("x-a", True, 2, between=lambda i: s.delete_version("x-a", "x0", h[1].id) if i == 0 else None)
+    s.paginate("x-a", True, 2, prefix="x0",          # page 1 = the two newest versions of x0
+               between=lambda i: s.delete_version("x-a", "x0", h[1].id) if i == 0 else None)
     # A restart right after a key-DELETE is acknowledged.
     s.put("x-a", "x4", body(r, 1, 9))
     s.delete_key("x-a", "x4")
