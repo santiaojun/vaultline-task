@@ -3,118 +3,177 @@ task: vaultline
 max_score: 100
 reference_min_score: 100
 baseline_max_score: 0
+# Each check carries its calibration category (design/calibration-plan.md):
+# SLIP 7, GEN-single 11, Non-functional 3, Mechanism 10, Semantic-interaction 69.
 checks:
+  # category: SLIP
   - id: F1-object-basics
     points: 1
+  # category: GEN-single
   - id: F1-key-mapping
     points: 2
+  # category: GEN-single
   - id: F1-bom-key
     points: 1
+  # category: SLIP
   - id: F2-id-rules
     points: 1
+  # category: GEN-single
   - id: F2-commit-order
     points: 1
+  # category: GEN-single
   - id: F2-no-reuse-after-delete
     points: 1
+  # category: GEN-single
   - id: F2-null-position
     points: 1
+  # category: Semantic-interaction
   - id: F2-suspended-put-replaces-null
     points: 3
+  # category: Semantic-interaction
   - id: F2-null-history-pages
     points: 3
+  # category: Semantic-interaction
   - id: F2-null-sequence
     points: 2
+  # category: Semantic-interaction
   - id: F2-unversioned-null-after-enable
     points: 3
+  # category: Semantic-interaction
   - id: F2-null-delete-by-id
     points: 2
+  # category: Semantic-interaction
   - id: F2-position-rebuild-restart
     points: 4
+  # category: Semantic-interaction
   - id: F2-ids-after-restart
     points: 3
+  # category: SLIP
   - id: F3-marker-responses
     points: 1
+  # category: GEN-single
   - id: F3-marker-hides
     points: 1
+  # category: GEN-single
   - id: F3-older-readable
     points: 1
+  # category: Semantic-interaction
   - id: F3-marker-stacking
     points: 2
+  # category: Semantic-interaction
   - id: F3-marker-sequence
     points: 3
+  # category: Semantic-interaction
   - id: F3-recompute-next-marker
     points: 4
+  # category: Semantic-interaction
   - id: F3-null-marker-delete-by-id
     points: 3
+  # category: Semantic-interaction
   - id: F3-current-after-delete-by-id
     points: 2
+  # category: Semantic-interaction
   - id: F3-undelete
     points: 3
+  # category: Semantic-interaction
   - id: F3-marker-only-versions
     points: 2
+  # category: Semantic-interaction
   - id: F3-suspended-delete
     points: 1
+  # category: GEN-single
   - id: F3-long-token
     points: 1
+  # category: SLIP
   - id: F4-params-and-shape
     points: 2
+  # category: GEN-single
   - id: F4-no-duplicates
     points: 1
+  # category: GEN-single
   - id: F4-no-omissions
     points: 1
+  # category: Semantic-interaction
   - id: F4-n3-null-at-token
     points: 3
+  # category: Semantic-interaction
   - id: F4-n3-null-before-token
     points: 3
+  # category: Semantic-interaction
   - id: F4-cursor-delete-by-id
     points: 3
+  # category: Semantic-interaction
   - id: F4-n3-across-restart
     points: 3
+  # category: Semantic-interaction
   - id: F4-token-across-restart
     points: 2
+  # category: Semantic-interaction
   - id: F4-marker-prefix-hidden
     points: 2
+  # category: Semantic-interaction
   - id: F4-marker-only-both-listings
     points: 2
+  # category: Semantic-interaction
   - id: F4-undelete-relists-prefix
     points: 1
+  # category: Semantic-interaction
   - id: F4-churn-no-duplicates
     points: 1
+  # category: Semantic-interaction
   - id: F4-churn-no-omissions
     points: 1
+  # category: SLIP
   - id: F5-bucket-basics
     points: 1
+  # category: Semantic-interaction
   - id: F5-delete-guard
     points: 2
+  # category: Semantic-interaction
   - id: F5-recreate-clean
     points: 2
+  # category: Semantic-interaction
   - id: F5-bucket-linearizable
     points: 1
+  # category: Semantic-interaction
   - id: F5-state-restart
     points: 2
+  # category: Mechanism
   - id: F6-ack-durable
     points: 1
+  # category: Mechanism
   - id: F6-inflight-atomic
     points: 2
+  # category: Mechanism
   - id: F6-marker-ack-durable
     points: 1
+  # category: Mechanism
   - id: F6-crash-sequence
     points: 2
+  # category: Mechanism
   - id: F7-concurrent-puts
     points: 1
+  # category: Mechanism
   - id: F7-null-race
     points: 1
+  # category: Mechanism
   - id: F7-read-during-write
     points: 1
+  # category: Mechanism
   - id: F7-client-abort
     points: 1
+  # category: SLIP
   - id: F8-errors-and-headers
     points: 1
+  # category: Semantic-interaction
   - id: X-integration
     points: 1
+  # category: Non-functional
   - id: NF-oversize-413
     points: 1
+  # category: Non-functional
   - id: NF-oversize-guard
     points: 1
+  # category: Non-functional
   - id: NF-scale-recovery
     points: 1

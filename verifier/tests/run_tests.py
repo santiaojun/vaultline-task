@@ -83,22 +83,22 @@ TESTS = [
     ("F5-state-restart", "buckets and versioning states survive a restart", 2, 12, "f5.state_restart"),
 
     ("F6-ack-durable", "acknowledged writes survive SIGKILL", 1, 12, "f6.ack_durable"),
-    ("F6-inflight-atomic", "a PUT in flight at SIGKILL is absent or complete, and stays so", 2, 25, "f6.inflight_atomic"),
+    ("F6-inflight-atomic", "a PUT in flight at SIGKILL is absent or complete, and stays so", 2, 19, "f6.inflight_atomic"),
     ("F6-marker-ack-durable", "an acknowledged key-DELETE survives SIGKILL", 1, 12, "f6.marker_ack_durable"),
-    ("F6-crash-sequence", "seeded writes with SIGKILLs keep every acknowledged effect", 2, 45, "f6.crash_sequence"),
+    ("F6-crash-sequence", "seeded writes with SIGKILLs keep every acknowledged effect", 2, 37, "f6.crash_sequence"),
 
-    ("F7-concurrent-puts", "concurrent PUTs create distinct versions and lose none", 1, 12, "f7.concurrent_puts"),
+    ("F7-concurrent-puts", "concurrent PUTs create distinct versions and lose none", 1, 13, "f7.concurrent_puts"),
     ("F7-null-race", "concurrent null PUTs leave one complete null version", 1, 12, "f7.null_race"),
     ("F7-read-during-write", "reads during writes return one complete version", 1, 12, "f7.read_during_write"),
     ("F7-client-abort", "an upload closed mid-body creates nothing", 1, 10, "f7.client_abort"),
 
     ("F8-errors-and-headers", "error bodies, codes, precedence and header names", 1, 8, "f8.errors_and_headers"),
 
-    ("X-integration", "seeded mixed sequence across features with restarts matches the model", 1, 25, "x.integration"),
+    ("X-integration", "seeded mixed sequence across features with restarts matches the model", 1, 16, "x.integration"),
 
     ("NF-oversize-413", "oversize Content-Length is rejected with 413", 1, 10, "nf.oversize_413"),
     ("NF-oversize-guard", "a rejected oversize PUT changes nothing", 1, 10, "nf.oversize_guard"),
-    ("NF-scale-recovery", "at full data scale, recovery is ready within 15 s and serves correctly", 1, 124, "nf.scale_recovery"),
+    ("NF-scale-recovery", "at full data scale, recovery is ready within 15 s and serves correctly", 1, 148, "nf.scale_recovery"),
 ]
 
 
