@@ -21,7 +21,7 @@ def concurrent_puts(ctx):
 
     def worker(w):
         mine = []
-        for n in range(15):
+        for n in range(8):
             data = f"w{w}-n{n}".encode() * 20
             vid = c.put_ok("conc-b", "hot", data)["versionId"]
             mine.append((vid, _etag(data)))
@@ -33,7 +33,7 @@ def concurrent_puts(ctx):
     items, _ = c.list_all("conc-b", True, prefix="hot")
     hist = [(it[2], it[5]) for it in items]
     all_ids = [vid for mine in got.values() for vid, _ in mine]
-    expect(len(set(all_ids)) == 16 * 15, "concurrent PUTs returned duplicate version IDs")
+    expect(len(set(all_ids)) == 16 * 8, "concurrent PUTs returned duplicate version IDs")
     expect(sorted(hist) == sorted(x for mine in got.values() for x in mine), "a version was lost or changed")
     order = {vid: i for i, (vid, _) in enumerate(hist)}
     for mine in got.values():

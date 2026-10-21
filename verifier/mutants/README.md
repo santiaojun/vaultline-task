@@ -57,6 +57,8 @@ One row per run. *Failed = target* is yes when the failed checks are exactly the
 | `control/3` (reference) | 100 |
 | `control-cpu-load/1` (reference, 2 CPUs both kept busy) | 100 |
 | `control-cpu-load/2` (reference, 2 CPUs both kept busy) | 100 |
+| `control-docker/1` (reference in the task image, 2 CPUs, 1 GiB, no network) | 100 |
 | `scaffold/1` (untouched `app/` scaffold (must score 0)) | 0 |
+| `scaffold-docker/1` (untouched `app/` scaffold in the task image) | 0 |
 
 The patches are absent from the candidate-visible materials. Re-run every record after changing the reference, the verifier or a patch.

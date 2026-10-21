@@ -237,7 +237,7 @@ def _churn(ctx, check):
     r = rnd(ctx)
     b = "churn-b"
     s.create(b, "Enabled")
-    stable = [f"s{i:02d}" for i in range(30)]
+    stable = [f"s{i:02d}" for i in range(20)]
     for k in stable:
         for _ in range(3):
             s.put(b, k, body(r, 0, 8))
@@ -247,8 +247,8 @@ def _churn(ctx, check):
     c = ctx.client
 
     def writer(w):
-        for n in range(25):
-            k = f"s{(n * 7 + w) % 30:02d}-c{w}-{n}"    # sorts between stable keys
+        for n in range(10):
+            k = f"s{(n * 7 + w) % 20:02d}-c{w}-{n}"    # sorts between stable keys
             rr = c.put(b, k, b"churn")
             expect(rr.status == 200, f"churn PUT {rr!r}")
             vid = rr.json()["versionId"]

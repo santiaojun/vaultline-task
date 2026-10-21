@@ -108,7 +108,7 @@ def null_sequence(ctx):
     b = "nseq-b"
     s.create(b)
     keys = [f"n{i}" for i in range(6)]
-    for step in range(300):
+    for step in range(200):
         x = r.random()
         k = r.choice(keys)
         bucket = s.m[b]

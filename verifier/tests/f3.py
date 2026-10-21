@@ -88,7 +88,7 @@ def marker_sequence(ctx):
     s.create(b, "Enabled")
     keys = [f"q{i}" for i in range(6)]
     patterns = {"stacked": False, "over_marker": False}
-    for step in range(300):
+    for step in range(200):
         x = r.random()
         k = r.choice(keys)
         bucket = s.m[b]

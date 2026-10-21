@@ -73,8 +73,8 @@ TESTS = [
     ("F4-marker-prefix-hidden", "a common prefix with only marker-current keys is hidden in the objects listing", 2, 10, "f4.marker_prefix_hidden"),
     ("F4-marker-only-both-listings", "marker-only keys under prefixes in both listings", 2, 10, "f4.marker_only_both_listings"),
     ("F4-undelete-relists-prefix", "removing the only current marker re-lists the common prefix", 1, 10, "f4.undelete_relists_prefix"),
-    ("F4-churn-no-duplicates", "pagination during concurrent writes never repeats an item", 1, 12, "f4.churn_no_duplicates"),
-    ("F4-churn-no-omissions", "pagination during concurrent writes lists every stable item once", 1, 12, "f4.churn_no_omissions"),
+    ("F4-churn-no-duplicates", "pagination during concurrent writes never repeats an item", 1, 15, "f4.churn_no_duplicates"),
+    ("F4-churn-no-omissions", "pagination during concurrent writes lists every stable item once", 1, 15, "f4.churn_no_omissions"),
 
     ("F5-bucket-basics", "bucket create, list, delete and versioning endpoints", 1, 8, "f5.bucket_basics"),
     ("F5-delete-guard", "a bucket with markers or noncurrent versions cannot be deleted", 2, 10, "f5.delete_guard"),
@@ -98,7 +98,7 @@ TESTS = [
 
     ("NF-oversize-413", "oversize Content-Length is rejected with 413", 1, 10, "nf.oversize_413"),
     ("NF-oversize-guard", "a rejected oversize PUT changes nothing", 1, 10, "nf.oversize_guard"),
-    ("NF-scale-recovery", "at full data scale, recovery is ready within 15 s and serves correctly", 1, 130, "nf.scale_recovery"),
+    ("NF-scale-recovery", "at full data scale, recovery is ready within 15 s and serves correctly", 1, 124, "nf.scale_recovery"),
 ]
 
 

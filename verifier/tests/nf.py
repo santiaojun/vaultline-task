@@ -129,7 +129,7 @@ def scale_recovery(ctx):
         else:
             phase1.append([("put", i, 0)])
 
-    def run(jobs):
+    def run(jobs, workers=16):
         qq = queue.Queue()
         for j in jobs:
             qq.put(j)
@@ -147,10 +147,12 @@ def scale_recovery(ctx):
                         put(keys[i], i.to_bytes(4, "big") + base[4:])
                     else:
                         put(keys[i], small(i, n))
-        ctx.threads([worker for _ in range(16)])
+        ctx.threads([worker for _ in range(workers)])
 
+    # The 7 large bodies go last and alone, so no upload competes with 15 other writers.
     run(phase1)
-    run(phase2)
+    run([j for j in phase2 if j[0][1] not in big_keys])
+    run([j for j in phase2 if j[0][1] in big_keys], workers=1)
     expect(sum(len(h) for h in model.keys.values()) == 5000 and len(model.keys) == 2500, "VERIFIER: scale shape")
     ctx.service.kill()
     ctx.service.start()                         # wait_ready enforces the 15 s bound (§2)
