@@ -214,10 +214,10 @@ class Response:
         self.headers = headers  # lower-case names
         self.body = body
 
+    def json_media_type(self):
+        return self.headers.get("content-type", "").split(";")[0].strip().lower() == "application/json"
+
     def json(self):
-        ctype = self.headers.get("content-type", "")
-        expect(ctype.split(";")[0].strip().lower() == "application/json",
-               f"expected a JSON response, got Content-Type {ctype!r}")
         try:
             return json.loads(self.body)
         except ValueError:
